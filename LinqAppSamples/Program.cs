@@ -1,6 +1,166 @@
-﻿internal class Program
+﻿using LinqAppSamples.DAL;
+
+class EmployeeDTO
+{
+    public int Id { get; set; }
+    public string FullName { get; set; }
+}
+internal class Program
 {
     private static void Main(string[] args)
+    {
+        // Üç adımda işlemler yapılır
+        // 1. Verinin elde edilmesi (Obtain the data source)
+        // 2. Sorgu oluşturma (Create the query)
+        // 3. Sorgu çalıştırma (Execute the query)
+
+
+        var context = new NorthwindContext();
+
+        //LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma();
+
+
+        //LINQ_Anonim_Cikti_Alma();
+
+        //LINQ_Coklu_Alan_Ciktisi();
+
+        //LINQ_Tek_Alan_Secme();
+        //LINQ_Temel_Sorgu();
+
+        //LINQ_Logging();
+        //LINQ_Query_Syntax();
+        //LINQ_Temel_Islemler();
+
+    }
+
+    private static void LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma()
+    {
+        var context = new NorthwindContext();
+
+        // Sınıf tanımı ile anonim çıktı alma
+
+        //query syntax
+        var query = from emp in context.Employees
+                    select new EmployeeDTO
+                    {
+                        Id = emp.EmployeeId,
+                        FullName = emp.FirstName + " " + emp.LastName
+                    };
+
+        //method syntax
+        var mtdQuery = context.Employees.Select(emp => new EmployeeDTO
+        {
+            Id = emp.EmployeeId,
+            FullName = emp.FirstName + " " + emp.LastName
+        });
+
+        foreach (var item in mtdQuery)
+        {
+            Console.WriteLine(item.Id + " " + item.FullName);
+        }
+    }
+
+    private static void LINQ_Anonim_Cikti_Alma()
+    {
+        var context = new NorthwindContext();
+
+        // anonim çıktı alma
+
+        //query syntax
+        var query = from emp in context.Employees
+                    select new
+                    {
+                        Id = emp.EmployeeId,
+                        Fullname = emp.FirstName + " " + emp.LastName
+                    };
+
+        //method syntax
+        var mtdQuery = context.Employees.Select(emp => new
+        {
+            Id = emp.EmployeeId,
+            Fullname = emp.FirstName + " " + emp.LastName
+        });
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item.Id + " " + item.Fullname);
+        }
+    }
+
+    private static void LINQ_Coklu_Alan_Ciktisi()
+    {
+        var context = new NorthwindContext();
+
+        // birden fazla alan seçerek çıktı alma
+        // query syntax
+        var query = from emp in context.Employees
+                    select new Employee
+                    {
+                        EmployeeId = emp.EmployeeId,
+                        FirstName = emp.FirstName,
+                        LastName = emp.LastName,
+                    };
+
+        //method syntax
+        //var query = context.Employees.Select(emp => new Employee
+        //{
+        //    EmployeeId = emp.EmployeeId,
+        //    FirstName = emp.FirstName,
+        //    LastName = emp.LastName
+        //});
+
+
+        foreach (var item in query)
+        {
+            Console.WriteLine($"{item.EmployeeId,-5} {item.FirstName,-15} {item.LastName,-15}");
+        }
+    }
+
+    private static void LINQ_Tek_Alan_Secme()
+    {
+        var context = new NorthwindContext();
+        // bir alan seçerek çıktı
+
+        //query syntaxı 
+        var query = from emp in context.Employees
+                    select emp.LastName;
+
+        // method syntaxı
+        // var query = context.Employees.Select(emp => emp.LastName);
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+    }
+
+    private static void LINQ_Temel_Sorgu()
+    {
+        var context = new NorthwindContext();
+
+        var query = from emp in context.Employees
+                    select emp;
+        //Yukarıdaki query syntax'ın aynı sonucunu aşağıdaki method syntax'ı da verir
+        //var query = context.Employees;
+
+        foreach (var em in query)
+        {
+            Console.WriteLine($"{em.EmployeeId,-5} {em.FirstName,-15} {em.LastName,-15}");
+        }
+    }
+
+    private static void LINQ_Logging()
+    {
+        var context = new NorthwindContext();
+
+        var employees = context.Employees;
+
+        foreach (var item in employees)
+        {
+            Console.WriteLine($"{item.EmployeeId,-5} {item.FirstName,-15} {item.LastName,-15}");
+        }
+    }
+
+    private static void LINQ_Query_Syntax()
     {
         // Üç adımda işlemler yapılır
         // 1. Verinin elde edilmesi (Obtain the data source)
@@ -27,7 +187,7 @@
 
         // (2.3) Mix syntax
         var mixSyntax = (from name in list
-                        select name)
+                         select name)
                         .Where(name => name.Contains("e"))
                         .OrderBy(name => name);
 
@@ -63,12 +223,11 @@
         Console.WriteLine("---------------------------------------");
 
         Console.WriteLine("Listeleme");
-        LinqIslemi_1();
 
+        LINQ_Temel_Islemler();
     }
 
-
-    private static void LinqIslemi_1()
+    private static void LINQ_Temel_Islemler()
     {
         //(1) data source
         var numbers = new int[] { 1, 2, 3, 4, 5, 6, 7 };
