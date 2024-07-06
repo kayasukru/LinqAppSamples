@@ -1,4 +1,5 @@
 ﻿using LinqAppSamples.DAL;
+using System.Collections;
 
 class EmployeeDTO
 {
@@ -15,6 +16,81 @@ internal class Program
         // 3. Sorgu çalıştırma (Execute the query)
 
 
+        var list = new ArrayList
+        {
+            "Şükrü", "Bilge", "Seher", "Can",
+            11,25,43,55,62,78,
+            true, false,
+            DateTime.Now,
+            DateTime.Now.AddDays(3),
+            DateTime.Now.AddMonths(7)
+        };
+        // tüm liste elemanları
+        Console.WriteLine("Tüm liste elemanları:");
+        foreach (var item in list)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine();
+
+        //integer değerleri al
+        Console.WriteLine("Listenin integer elemanları:");
+        var filteredData1 = list.OfType<int>();
+        foreach (var item in filteredData1)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine();
+
+        //DateTime değerleri al
+        Console.WriteLine("Listenin DateTime elemanları:");
+        var filteredData2 = list.OfType<DateTime>();
+        foreach (var item in filteredData2)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine();
+
+        //Metod ile filtreleme
+        Console.WriteLine("Metod ile filtreleme - boolean elemalar:");
+        var filteredData3 = GenericList<bool>(list);
+        foreach (var item in filteredData3)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine();
+
+        //Metod ile filtreleme
+        Console.WriteLine("Metod ile filtreleme - string elemalar:");
+        var filteredData4 = GenericList<string>(list);
+        foreach (var item in filteredData4)
+        {
+            Console.WriteLine(item);
+        }
+
+
+
+        //LINQ_Where();
+
+        //LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma();
+
+        //LINQ_Anonim_Cikti_Alma();
+
+        //LINQ_Coklu_Alan_Ciktisi();
+
+        //LINQ_Tek_Alan_Secme();
+
+        //LINQ_Temel_Sorgu();
+
+        //LINQ_Logging();
+
+        //LINQ_Query_Syntax();
+
+        //LINQ_Temel_Islemler();
+    }
+
+    private static void LINQ_Where()
+    {
         var list = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
         //karşılaştırma
@@ -43,24 +119,19 @@ internal class Program
         {
             Console.WriteLine(item);
         }
+    }
 
-
-
-        //LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma();
-
-        //LINQ_Anonim_Cikti_Alma();
-
-        //LINQ_Coklu_Alan_Ciktisi();
-
-        //LINQ_Tek_Alan_Secme();
-
-        //LINQ_Temel_Sorgu();
-
-        //LINQ_Logging();
-
-        //LINQ_Query_Syntax();
-
-        //LINQ_Temel_Islemler();
+    internal static List<T> GenericList<T>(IEnumerable arr)
+    {
+        var list = new List<T>();
+        foreach (var item in arr)
+        {
+            if (item is T)
+            {
+                list.Add((T)item);
+            }
+        }
+        return list;
     }
 
     private static bool CheckNumber(int number)
