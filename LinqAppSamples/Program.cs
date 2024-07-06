@@ -1,4 +1,5 @@
 ﻿using LinqAppSamples.DAL;
+using Microsoft.EntityFrameworkCore;
 using System.Collections;
 
 class EmployeeDTO
@@ -15,6 +16,72 @@ internal class Program
         // 2. Sorgu oluşturma (Create the query)
         // 3. Sorgu çalıştırma (Execute the query)
 
+        LINQ_join_Islemleri();
+        Console.WriteLine();
+
+        LINQ_Islemleri_3();
+        Console.WriteLine();
+
+        LINQ_Islemleri2();
+        Console.WriteLine();
+
+        LINQ_OfType();
+        Console.WriteLine();
+
+        LINQ_Where();
+        Console.WriteLine();
+
+        LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma();
+        Console.WriteLine();
+
+        LINQ_Anonim_Cikti_Alma();
+        Console.WriteLine();
+
+        LINQ_Coklu_Alan_Ciktisi();
+        Console.WriteLine();
+
+        LINQ_Tek_Alan_Secme();
+        Console.WriteLine();
+
+        LINQ_Temel_Sorgu();
+        Console.WriteLine();
+
+        LINQ_Logging();
+        Console.WriteLine();
+
+        LINQ_Query_Syntax();
+        Console.WriteLine();
+
+        LINQ_Temel_Islemler();
+    }
+
+    private static void LINQ_join_Islemleri()
+    {
+        var context = new NorthwindContext();
+
+        // query syntax
+        var query1 = from p in context.Products
+                     join c in context.Categories on p.CategoryId equals c.CategoryId
+                     select new
+                     {
+                         Product = p,
+                         Category = c
+                     };
+
+        // method syntax
+        var query2 = context.Products
+            .Include(p => p.Category) //LEFT JOIN işlemi yapar
+            .Where(p => p.CategoryId != null)
+            .ToList();
+
+        foreach (var item in query1)
+        {
+            Console.WriteLine($"{item.Product.ProductId,-5} {item.Product.ProductName,-35} {item.Category.CategoryId,-5} {item.Category.CategoryName}");
+        }
+    }
+
+    private static void LINQ_Islemleri_3()
+    {
         var context = new NorthwindContext();
 
         //query syntax
@@ -36,7 +103,7 @@ internal class Program
             .ThenByDescending(p => p.UnitsInStock)
             .Select(p => new Product
             {
-                ProductId= p.ProductId,
+                ProductId = p.ProductId,
                 ProductName = p.ProductName,
                 UnitPrice = p.UnitPrice,
                 UnitsInStock = p.UnitsInStock
@@ -44,30 +111,8 @@ internal class Program
 
         foreach (var item in query2)
         {
-            Console.WriteLine($"{item.ProductId, -10} {item.ProductName, -35} {item.UnitPrice, -15} {item.UnitsInStock, -10}");
+            Console.WriteLine($"{item.ProductId,-10} {item.ProductName,-35} {item.UnitPrice,-15} {item.UnitsInStock,-10}");
         }
-
-        //LINQ_Islemleri2();
-
-        //LINQ_OfType();
-
-        //LINQ_Where();
-
-        //LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma();
-
-        //LINQ_Anonim_Cikti_Alma();
-
-        //LINQ_Coklu_Alan_Ciktisi();
-
-        //LINQ_Tek_Alan_Secme();
-
-        //LINQ_Temel_Sorgu();
-
-        //LINQ_Logging();
-
-        //LINQ_Query_Syntax();
-
-        //LINQ_Temel_Islemler();
     }
 
     private static void LINQ_Islemleri2()
