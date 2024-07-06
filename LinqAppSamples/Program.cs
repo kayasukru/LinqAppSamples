@@ -15,7 +15,89 @@ internal class Program
         // 2. Sorgu oluşturma (Create the query)
         // 3. Sorgu çalıştırma (Execute the query)
 
+        var context = new NorthwindContext();
 
+        //query syntax
+        var query1 = from p in context.Products
+                     where p.ProductName.Contains("rt")
+                     orderby p.ProductName
+                     select new Product
+                     {
+                         ProductId = p.ProductId,
+                         ProductName = p.ProductName,
+                         UnitPrice = p.UnitPrice,
+                         UnitsInStock = p.UnitsInStock,
+                     };
+
+        // method syntax 
+        var query2 = context.Products
+            .Where(p => p.ProductName.Contains("rt"))
+            .OrderBy(p => p.ProductName)
+            .ThenByDescending(p => p.UnitsInStock)
+            .Select(p => new Product
+            {
+                ProductId= p.ProductId,
+                ProductName = p.ProductName,
+                UnitPrice = p.UnitPrice,
+                UnitsInStock = p.UnitsInStock
+            });
+
+        foreach (var item in query2)
+        {
+            Console.WriteLine($"{item.ProductId, -10} {item.ProductName, -35} {item.UnitPrice, -15} {item.UnitsInStock, -10}");
+        }
+
+        //LINQ_Islemleri2();
+
+        //LINQ_OfType();
+
+        //LINQ_Where();
+
+        //LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma();
+
+        //LINQ_Anonim_Cikti_Alma();
+
+        //LINQ_Coklu_Alan_Ciktisi();
+
+        //LINQ_Tek_Alan_Secme();
+
+        //LINQ_Temel_Sorgu();
+
+        //LINQ_Logging();
+
+        //LINQ_Query_Syntax();
+
+        //LINQ_Temel_Islemler();
+    }
+
+    private static void LINQ_Islemleri2()
+    {
+        // query syntax ile filtreleme
+        var context = new NorthwindContext();
+        var query1 = from prod in context.Products
+                     where prod.UnitPrice > 50 && prod.UnitsInStock <= 45
+                     select new Product
+                     {
+                         ProductId = prod.ProductId,
+                         ProductName = prod.ProductName,
+                         UnitPrice = prod.UnitPrice,
+                         UnitsInStock = prod.UnitsInStock,
+                     };
+
+        // metod syntax ile filtreleme
+        var query2 = context.Products
+            .Where(p => p.UnitPrice > 50 && p.UnitsInStock <= 45)
+            .OrderByDescending(p => p.UnitsInStock)
+            .Take(5);
+
+        foreach (var item in query2)
+        {
+            Console.WriteLine($"{item.ProductId,-5} {item.ProductName,-35} {item.UnitPrice,-15} {item.UnitsInStock,-12}");
+        }
+    }
+
+    private static void LINQ_OfType()
+    {
         var list = new ArrayList
         {
             "Şükrü", "Bilge", "Seher", "Can",
@@ -67,26 +149,6 @@ internal class Program
         {
             Console.WriteLine(item);
         }
-
-
-
-        //LINQ_Where();
-
-        //LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma();
-
-        //LINQ_Anonim_Cikti_Alma();
-
-        //LINQ_Coklu_Alan_Ciktisi();
-
-        //LINQ_Tek_Alan_Secme();
-
-        //LINQ_Temel_Sorgu();
-
-        //LINQ_Logging();
-
-        //LINQ_Query_Syntax();
-
-        //LINQ_Temel_Islemler();
     }
 
     private static void LINQ_Where()
