@@ -1,6 +1,33 @@
-﻿internal class Program
+﻿using LinqAppSamples.DAL;
+
+internal class Program
 {
     private static void Main(string[] args)
+    {
+        // Üç adımda işlemler yapılır
+        // 1. Verinin elde edilmesi (Obtain the data source)
+        // 2. Sorgu oluşturma (Create the query)
+        // 3. Sorgu çalıştırma (Execute the query)
+
+
+        var context = new NorthwindContext();
+
+        var employees = context.Employees;
+
+        foreach (var item in employees)
+        {
+            Console.WriteLine($"{item.EmployeeId, -5} {item.FirstName, -15} {item.LastName, -15}");
+        }
+
+
+
+
+        // LINQ_Query_Syntax();
+        // LINQ_Temel_Islemler();
+
+    }
+
+    private static void LINQ_Query_Syntax()
     {
         // Üç adımda işlemler yapılır
         // 1. Verinin elde edilmesi (Obtain the data source)
@@ -27,7 +54,7 @@
 
         // (2.3) Mix syntax
         var mixSyntax = (from name in list
-                        select name)
+                         select name)
                         .Where(name => name.Contains("e"))
                         .OrderBy(name => name);
 
@@ -63,12 +90,11 @@
         Console.WriteLine("---------------------------------------");
 
         Console.WriteLine("Listeleme");
-        LinqIslemi_1();
 
+        LINQ_Temel_Islemler();
     }
 
-
-    private static void LinqIslemi_1()
+    private static void LINQ_Temel_Islemler()
     {
         //(1) data source
         var numbers = new int[] { 1, 2, 3, 4, 5, 6, 7 };
