@@ -15,22 +15,59 @@ internal class Program
         // 3. Sorgu çalıştırma (Execute the query)
 
 
-        var context = new NorthwindContext();
+        var list = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+        //karşılaştırma
+        var filteredNumbers1 = list.Where(num => num > 8);
+
+        //karşılaştırma (Metodla)
+        var filteredNumbers2 = list.Where(num => CheckNumber(num));
+
+        // Func ile predicate karşılaştırma
+        Func<int, bool> predicate = i => i > 8;
+        var filteredNumbers3 = list.Where(predicate);
+
+        foreach (var item in filteredNumbers1)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine();
+
+        foreach (var item in filteredNumbers2)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine();
+
+        foreach (var item in filteredNumbers3)
+        {
+            Console.WriteLine(item);
+        }
+
+
 
         //LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma();
-
 
         //LINQ_Anonim_Cikti_Alma();
 
         //LINQ_Coklu_Alan_Ciktisi();
 
         //LINQ_Tek_Alan_Secme();
+
         //LINQ_Temel_Sorgu();
 
         //LINQ_Logging();
-        //LINQ_Query_Syntax();
-        //LINQ_Temel_Islemler();
 
+        //LINQ_Query_Syntax();
+
+        //LINQ_Temel_Islemler();
+    }
+
+    private static bool CheckNumber(int number)
+    {
+        if (number > 8)
+            return true;
+        return false;
     }
 
     private static void LINQ_Sinif_Tanimi_Ile_Anonim_Cikti_Alma()
